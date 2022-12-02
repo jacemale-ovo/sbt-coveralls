@@ -4,7 +4,8 @@ import sbt.ScriptedPlugin.autoImport.scriptedLaunchOpts
 
 inThisBuild(
   List(
-    organization := "org.scoverage",
+    organization := sys.env.getOrElse("GROUP", "org.scoverage"),
+    version := sys.env.getOrElse("VERSION", version.value),
     homepage := Some(url("http://scoverage.org")),
     developers := List(
       Developer(
@@ -36,12 +37,14 @@ inThisBuild(
 lazy val root = Project("sbt-coveralls", file("."))
   .enablePlugins(SbtPlugin)
   .settings(
+    projectID := ModuleID(organization.value, name.value, version.value),
     Test / publishArtifact := false,
     scalacOptions := Seq(
       "-unchecked",
       "-deprecation",
       "-feature",
-      "-encoding", "utf8"
+      "-encoding",
+      "utf8"
     ),
     dependencyOverrides ++= Seq(
       "com.jcraft" % "jsch" % "0.1.51"
