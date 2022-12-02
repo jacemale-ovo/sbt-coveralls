@@ -1,13 +1,10 @@
 package org.scoverage.coveralls
 
-import _root_.sbt.ScopeFilter
-import _root_.sbt.ThisProject
-import com.fasterxml.jackson.core.JsonEncoding
-import sbt.Keys._
-import sbt._
+import _root_.sbt.{ScopeFilter, ThisProject, *}
+import sbt.Keys.*
 
-import scala.io.Source
 import java.io.File
+import scala.io.Source
 
 object Imports {
   object CoverallsKeys {
@@ -35,8 +32,8 @@ object CoverallsPlugin extends AutoPlugin {
   override def trigger = allRequirements
 
   val autoImport = Imports
-  import autoImport._
-  import CoverallsKeys._
+  import autoImport.*
+  import CoverallsKeys.*
 
   lazy val coveralls = taskKey[Unit](
     "Uploads scala code coverage to coveralls.io"
@@ -55,7 +52,7 @@ object CoverallsPlugin extends AutoPlugin {
       else None
     },
     coverallsFile := crossTarget.value / "coveralls.json",
-    coberturaFile := crossTarget.value / "scoverage-data" / "coverage-report" / "cobertura.xml",
+    coberturaFile := crossTarget.value / "coverage-report" / "cobertura.xml",
     coverallsGitRepoLocation := Some(".")
   )
 
